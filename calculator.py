@@ -1,7 +1,5 @@
-# Import the logo from the art module
-from art import logo
+from calculator_logo import logo
 
-# Define arithmetic functions
 def add(n1, n2):
     return n1 + n2
 
@@ -14,7 +12,6 @@ def multiply(n1, n2):
 def divide(n1, n2):
     return n1 / n2
 
-# Dictionary to map operation symbols to corresponding functions
 operations = {
     "+": add,
     "-": subtract,
@@ -22,40 +19,42 @@ operations = {
     "/": divide,
 }
 
-# Calculator function
-def calculator():
-    # Display the logo
+def calculator_():
     print(logo)
+    continue_ = True
+    num1 = float(input("Enter the first number: "))
 
-    # Get the first number from the user
-    num1 = float(input("Enter first number: "))
+    while continue_:
+        # Display available operators
+        for symbol in operations:
+            print(symbol)
 
-    # Display available operations
-    for symbol in operations:
-        print(symbol)
+        # Get operator from user
+        operator = input("Choose an operator (+, -, *, /): ")
 
-    # Variable to control the loop
-    should_continue = True
+        # Get second number from user
+        num2 = float(input("Enter the second number: "))
 
-    # Start a loop to allow the user to perform calculations
-    while should_continue:
-        # Get the operation symbol from the user
-        operation_symbol = input("Pick an operation from the line above: ")
-        
-        # Get the second number from the user
-        num2 = float(input("Enter second number: "))
+        # Perform the chosen operation
+        answer = operations[operator](num1, num2)
+        print(f"{num1} {operator} {num2} = {answer}")
 
-        # Perform the calculation based on the user's input
-        calculation_fun = operations[operation_symbol]
-        answer = calculation_fun(num1, num2)
-        print(f"{num1} {operation_symbol} {num2} = {answer}")
+        # Ask user if they want to continue with the result or start a new calculation
+        choice = input(f"Enter 'Y' to continue calculation with {answer} "
+                       f"or 'N' for a new calculation "
+                       f"or 'X' to exit: ").lower()
 
-        # Ask the user if they want to continue with the result or start a new calculation
-        if input(f"Type 'y' to continue with {answer} or type 'n' to start a new calculation: ") == "y":
+        # Update num1 for continued calculations
+        if choice == "y":
             num1 = answer
+        # End current loop and start a new calculation
+        elif choice == "n":
+            continue_ = False
+            print("\n" * 20)  # Clear the screen
+            calculator_()
+        # Exit the loop
         else:
-            should_continue = False
-            calculator()  # Recursively call the calculator function for a new calculation
+            continue_ = False
 
 # Start the calculator
-calculator()
+calculator_()
